@@ -3,3 +3,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.no-scroll {
+  overflow: hidden;
+  min-height: 100%;
+  height: 100dvh;
+}

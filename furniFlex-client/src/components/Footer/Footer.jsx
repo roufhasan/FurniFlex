@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
+import Logo from "../Logo/Logo";
 import { footerLinks } from "../../data/footerLinks";
-import furniFlexLogo from "../../assets/icons/furniFlex-logo.png";
 import facebookIcon from "../../assets/icons/facebook-logo.svg";
 import instagramIcon from "../../assets/icons/instagram-logo.svg";
 import twitterIcon from "../../assets/icons/twitter-logo.svg";
@@ -13,12 +13,7 @@ const Footer = () => {
       <div className="grid w-full grid-cols-1 gap-x-1 pb-20 md:grid-cols-12">
         {/* logo */}
         <div className="md:col-span-5">
-          <Link to="/" className="inline-flex items-center gap-1.5">
-            <img className="size-10" src={furniFlexLogo} alt="furniflex logo" />
-            <p className="font-inter text-xl font-bold text-white">
-              Furni<span className="text-custom-sky-1">Flex</span>
-            </p>
-          </Link>
+          <Logo textColor="text-white" />
         </div>
 
         {/* links */}
