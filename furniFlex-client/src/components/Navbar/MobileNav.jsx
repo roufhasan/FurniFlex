@@ -29,8 +29,6 @@ const MobileNav = () => {
     };
   }, [showMenu]);
 
-  console.log(showMenu);
-
   return (
     <>
       {/* menu toggle button */}

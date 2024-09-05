@@ -5,7 +5,7 @@ export const navLinks = [
   },
   {
     title: "products",
-    url: "/products",
+    url: "/products/rocking-chair",
   },
   {
     title: "categories",
