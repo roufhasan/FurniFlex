@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
+import { motion } from "framer-motion";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import FormContainer from "../../components/shared/FormContainer";
-import AuthButton from "../../components/buttons/AuthButton";
+import { Link } from "react-router-dom";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
+import AuthButton from "../../components/buttons/AuthButton";
 
-const SignUpForm = () => {
+const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -23,57 +23,12 @@ const SignUpForm = () => {
 
   return (
     <FormContainer>
-      {/* welcome heading */}
-      <div className="text-center">
-        <h3 className="text-2xl font-semibold">Welcome To</h3>
-        <h1 className="mb-0.5 mt-1.5 text-[2.5rem] font-bold leading-none">
-          Furni<span className="text-custom-sky-1">Flex</span>
-        </h1>
-        <p className="font-medium text-custom-gray-1">
-          Signup for purchase your desire products
-        </p>
-      </div>
+      <h1 className="text-[2rem] font-medium">Welcome Back!</h1>
+      <p className="mt-0.5 font-medium text-custom-gray-1">
+        Enter your Credentials to access your account
+      </p>
 
-      {/* ==> form div <== */}
-
-      <form
-        className="mt-4 flex flex-col gap-3.5"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        {/* first and last name field */}
-        <div className="flex items-center justify-center gap-3.5">
-          <div className="w-full rounded-md border border-custom-gray-2 bg-white p-3">
-            <label
-              className="block text-xs text-custom-gray-1"
-              htmlFor="firstName"
-            >
-              First Name(optional)
-            </label>
-            <input
-              className="mt-0.5 block w-full border-none text-sm outline-none"
-              type="text"
-              id="firstName"
-              placeholder="John"
-              {...register("firstName")}
-            />
-          </div>
-
-          <div className="w-full rounded-md border border-custom-gray-2 bg-white p-3">
-            <label
-              className="block text-xs text-custom-gray-1"
-              htmlFor="lastName"
-            >
-              Last Name(optional)
-            </label>
-            <input
-              className="mt-0.5 block w-full border-none text-sm outline-none"
-              type="text"
-              id="lastName"
-              placeholder="Doe"
-              {...register("lastName")}
-            />
-          </div>
-        </div>
+      <form className="mt-11" onSubmit={handleSubmit(onSubmit)}>
         {/* email field */}
         <div className="w-full rounded-md border border-custom-gray-2 bg-white p-3">
           <label
@@ -90,8 +45,9 @@ const SignUpForm = () => {
             {...register("email", { required: true })}
           />
         </div>
+
         {/* password field */}
-        <div className="flex w-full items-center justify-between gap-3 rounded-md border border-custom-gray-2 bg-white p-3">
+        <div className="mt-3.5 flex w-full items-center justify-between gap-3 rounded-md border border-custom-gray-2 bg-white p-3">
           <div className="w-full">
             <label
               className={`block text-xs ${errors.password ? "text-red-600" : "text-custom-gray-1"}`}
@@ -119,6 +75,13 @@ const SignUpForm = () => {
             )}
           </motion.div>
         </div>
+
+        <p className="mt-2 text-right">
+          <Link className="text-sm font-medium text-custom-sky-1" to="/login">
+            Forgot Password
+          </Link>
+        </p>
+
         {/* terms & policy checkbox */}
         <div className="flex items-center gap-1 text-sm font-medium">
           <input
@@ -134,13 +97,13 @@ const SignUpForm = () => {
           </span>
         </div>
 
-        <AuthButton buttonText="signup" />
+        <AuthButton buttonText="sign in" />
       </form>
 
       {/* Social Login Buttons */}
-      <SocialLogin authLink="/login" authText="Sign In" />
+      <SocialLogin authLink="/signup" authText="Sign Up" />
     </FormContainer>
   );
 };
 
-export default SignUpForm;
+export default LoginForm;
