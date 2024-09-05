@@ -9,6 +9,7 @@ export default {
         "custom-gray-2": "#dedede",
         "custom-gray-3": "#f1f0f0",
         "custom-gray-4": "#c8c4c4",
+        "custom-gray-5": "#81859f",
         "custom-sky-1": "#1e99f5",
       },
       fontFamily: {
