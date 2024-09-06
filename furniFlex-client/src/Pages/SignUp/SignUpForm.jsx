@@ -1,22 +1,58 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { AuthContext } from "../../Providers/AuthProvider";
 import FormContainer from "../../components/shared/FormContainer";
 import AuthButton from "../../components/buttons/AuthButton";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
 
 const SignUpForm = () => {
+  const { createUser, updateUserProfile, setLoading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
 
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = (data) => {
+    // create new user with email and password
+    createUser(data.email, data.password)
+      .then((result) => {
+        const loggedUser = result.user;
+        console.log(loggedUser);
 
+        // update user name
+        if (data.firstName && data.lastName) {
+          const name = `${data.firstName} ${data.lastName}`;
+          updateUserProfile(name)
+            .then(() => {
+              setLoading(false);
+              navigate("/");
+            })
+            .catch((error) => {
+              setLoading(false);
+              console.log("error profile name update:", error);
+            });
+        } else {
+          setLoading(false);
+          navigate("/");
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("signup error:", error.message);
+      });
+
+    // reset form data
+    reset();
+  };
+
+  // show & hide password
   const togglePassword = () => {
     setShowPassword((prevPass) => !prevPass);
   };
@@ -97,14 +133,19 @@ const SignUpForm = () => {
               className={`block text-xs ${errors.password ? "text-red-600" : "text-custom-gray-1"}`}
               htmlFor="password"
             >
-              Password
+              {errors.password
+                ? "Password must be min 6 characters"
+                : "Password"}
             </label>
             <input
               className="mt-0.5 block w-full border-none text-sm outline-none"
               type={showPassword ? "text" : "password"}
               id="password"
               placeholder="*********"
-              {...register("password", { required: true })}
+              {...register("password", {
+                required: true,
+                pattern: /^.{6,}$/,
+              })}
             />
           </div>
           <motion.div
@@ -126,12 +167,15 @@ const SignUpForm = () => {
             id="terms"
             {...register("terms", { required: true })}
           />
-          <span className={`${errors.terms && "text-red-600"}`}>
+          <label
+            htmlFor="terms"
+            className={`${errors.terms && "text-red-600"}`}
+          >
             I agree to the{" "}
             <Link to="/" className="underline">
               Terms & Policy
             </Link>
-          </span>
+          </label>
         </div>
 
         <AuthButton buttonText="signup" />
