@@ -57,13 +57,23 @@ const CartProvider = ({ children }) => {
       });
   };
 
+  const deleteCartItem = (_id, productId) => {
+    if (_id) {
+      axios.delete(`http://localhost:5000/carts/${_id}`).then((res) => {
+        if (res.data.acknowledged && res.data.deletedCount > 0) {
+          setCarts(carts.filter((item) => item.productId !== productId));
+        }
+      });
+    }
+  };
+
   useEffect(() => {
     if (user && user.email) {
       getCarts(user);
     }
   }, [user]);
 
-  const cartInfo = { carts, loading, saveCartItem };
+  const cartInfo = { carts, loading, saveCartItem, deleteCartItem };
   return (
     <CartContext.Provider value={cartInfo}>{children}</CartContext.Provider>
   );

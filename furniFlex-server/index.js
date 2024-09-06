@@ -105,14 +105,14 @@ async function run() {
     });
 
     // Delete a item from the carts
-    app.delete("/carts/:id/:email", async (req, res) => {
+    app.delete("/carts/:id", async (req, res) => {
       try {
-        const { id, email } = req.params;
-        if (!id || !email) {
-          return res.status(400).json({ message: "id and email is required!" });
+        const { id } = req.params;
+        if (!id) {
+          return res.status(400).json({ message: "id is required!" });
         }
 
-        const query = { _id: new ObjectId(id), email: email };
+        const query = { _id: new ObjectId(id) };
         const result = await cartsCollection.deleteOne(query);
         res.send(result);
       } catch (err) {
