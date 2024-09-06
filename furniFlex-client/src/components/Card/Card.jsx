@@ -3,12 +3,24 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BsBag } from "react-icons/bs";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { CartContext } from "../../Providers/CartProvider";
 import { discountedPrice } from "../../utils/discountedPrice";
 import chairImg from "../../assets/chair.png"; // TODO: make chair image dynamic add in the backend api
 
 const Card = ({ product }) => {
   const { user } = useContext(AuthContext);
-  const { title, price, discount, description } = product;
+  const { saveCartItem } = useContext(CartContext);
+  const { _id, title, price, discount, description } = product;
+  const discountPrice = discountedPrice(price, discount);
+
+  const item = {
+    email: user?.email,
+    productId: _id,
+    image: "https.imgae.com", //TODO: make imgae dynamic
+    title,
+    price: parseFloat(discountPrice).toFixed(2),
+    quantity: 1,
+  };
 
   return (
     <div className="col-span-12 mx-auto max-w-96 rounded-2xl border border-[#f1f1f1] p-4 sm:col-span-6 md:col-span-4">
@@ -30,9 +42,7 @@ const Card = ({ product }) => {
         {title}
       </Link>
       <div className="my-4 flex items-center gap-3">
-        <p className="text-lg font-bold text-[#343434]">
-          €{discountedPrice(price, discount)}
-        </p>
+        <p className="text-lg font-bold text-[#343434]">€{discountPrice}</p>
         <p className="text-lg font-medium text-[#ABABAB] line-through">
           €{price.toFixed(2)}
         </p>
@@ -41,6 +51,7 @@ const Card = ({ product }) => {
       <p className="text-sm text-[#838383]">{description}</p>
       {user ? (
         <motion.button
+          onClick={() => saveCartItem(item)}
           whileTap={{ scale: 0.95 }}
           className="mt-8 flex w-full items-center justify-center gap-3 rounded-md bg-black py-2 font-semibold text-white"
         >

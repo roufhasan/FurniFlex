@@ -88,7 +88,7 @@ async function run() {
         if (existingItem) {
           const newQuantity = existingItem.quantity + quantity;
           const filter = { prodcutId, email };
-          const updateCartQuantiy = { quantity: newQuantity };
+          const updateCartQuantiy = { $set: { quantity: newQuantity } };
           const result = await cartsCollection.updateOne(
             filter,
             updateCartQuantiy

@@ -6,10 +6,12 @@ import { BsBag } from "react-icons/bs";
 import { FaPowerOff } from "react-icons/fa";
 import { IoPersonCircle } from "react-icons/io5";
 import { AuthContext } from "../../Providers/AuthProvider";
+import { CartContext } from "../../Providers/CartProvider";
 import { navLinks } from "../../utils/data/navLinks";
 
 const DesktopNav = () => {
   const { user, logOut } = useContext(AuthContext);
+  const { carts } = useContext(CartContext);
 
   // Handle user logout
   const handleUserLogOut = () => {
@@ -42,7 +44,7 @@ const DesktopNav = () => {
         <div className="relative inline-block cursor-pointer">
           <BsBag className="text-2xl" />
           <span className="absolute -bottom-1.5 -right-1 size-4 rounded-full bg-black text-center text-xs text-white">
-            2
+            {carts?.length}
           </span>
         </div>
 
