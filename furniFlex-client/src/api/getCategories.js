@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const fetchCategories = (setCatgories) => {
+export const getCategories = (setCatgories) => {
   axios
     .get("http://localhost:5000/category")
     .then((res) => setCatgories(res.data))
