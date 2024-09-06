@@ -1,13 +1,28 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BsList } from "react-icons/bs";
 import { navLinks } from "../../utils/data/navLinks";
+import { AuthContext } from "../../Providers/AuthProvider";
+import userImg from "../../assets/user.png";
+import { IoPersonCircle } from "react-icons/io5";
+import { FaPowerOff } from "react-icons/fa";
 
 const MobileNav = () => {
+  const { user, logOut } = useContext(AuthContext);
   const sideBarRef = useRef();
   const menuRef = useRef();
   const [showMenu, setShowMenu] = useState(false);
+
+  // Handle user logout
+  const handleUserLogOut = () => {
+    logOut()
+      .then(() => {
+        setShowMenu(false);
+      })
+      .catch((err) => console.error(err));
+    // setCart([]); TODO: make setCart uncommented
+  };
 
   // Toggle mobile menu Visibility
   useEffect(() => {
@@ -70,15 +85,49 @@ const MobileNav = () => {
                 ))}
               </ul>
 
-              <motion.button whileTap={{ scale: 0.95 }}>
-                <Link
-                  to="/login"
-                  onClick={() => setShowMenu(false)}
-                  className="block w-full rounded-md bg-black py-2 text-center font-medium text-white"
-                >
-                  Sign In
-                </Link>
-              </motion.button>
+              {user ? (
+                <>
+                  {user?.photoURL ? (
+                    <div className="flex items-center justify-between gap-2">
+                      <img
+                        className="size-10 cursor-pointer rounded-full"
+                        src={userImg}
+                        alt={`${user.displayName} image`}
+                      />
+                      <motion.button
+                        onClick={handleUserLogOut}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex w-full items-center justify-center gap-2 rounded-md bg-red-500 py-2 text-white"
+                      >
+                        <FaPowerOff />
+                        <span className="text-lg font-medium">Logout</span>
+                      </motion.button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-between gap-2">
+                      <IoPersonCircle className="cursor-pointer text-[2.5rem]" />
+                      <motion.button
+                        onClick={handleUserLogOut}
+                        whileTap={{ scale: 0.95 }}
+                        className="flex w-full items-center justify-center gap-2 rounded-md bg-red-500 py-2 text-white"
+                      >
+                        <FaPowerOff />
+                        <span className="text-lg font-medium">Logout</span>
+                      </motion.button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <motion.button whileTap={{ scale: 0.95 }}>
+                  <Link
+                    to="/login"
+                    onClick={() => setShowMenu(false)}
+                    className="block w-full rounded-md bg-black py-2 text-center font-medium text-white"
+                  >
+                    Sign In
+                  </Link>
+                </motion.button>
+              )}
             </div>
           </div>
         </div>

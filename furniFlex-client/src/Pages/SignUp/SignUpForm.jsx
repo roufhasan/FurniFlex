@@ -24,7 +24,7 @@ const SignUpForm = () => {
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser);
+        console.log(loggedUser); // TODO: remove this console.log of logged user
 
         // update user name
         if (data.firstName && data.lastName) {

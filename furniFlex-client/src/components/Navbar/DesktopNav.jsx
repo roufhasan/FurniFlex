@@ -1,9 +1,26 @@
-import { NavLink } from "react-router-dom";
+import { useContext } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { motion } from "framer-motion";
 import { BsBag } from "react-icons/bs";
+import { FaPowerOff } from "react-icons/fa";
+import { IoPersonCircle } from "react-icons/io5";
+import { AuthContext } from "../../Providers/AuthProvider";
 import { navLinks } from "../../utils/data/navLinks";
-import userImg from "../../assets/user.png";
 
 const DesktopNav = () => {
+  const { user, logOut } = useContext(AuthContext);
+
+  // Handle user logout
+  const handleUserLogOut = () => {
+    logOut()
+      .then(() => {})
+      .catch((err) => console.error(err));
+    // setCart([]); TODO: make setCart uncommented
+  };
+
+  console.log(user); // TODO: uncomment this user
+
   return (
     <>
       <ul className="hidden items-center gap-2 md:flex">
@@ -28,11 +45,46 @@ const DesktopNav = () => {
             2
           </span>
         </div>
-        <img
-          className="size-10 cursor-pointer rounded-full"
-          src={userImg}
-          alt="user img"
-        />
+
+        {user ? (
+          <div className="relative">
+            <Menu>
+              <MenuButton>
+                {user?.photoURL ? (
+                  <img
+                    className="size-10 cursor-pointer rounded-full"
+                    src={user.photoURL}
+                    alt={`${user.displayName} image`}
+                  />
+                ) : (
+                  <IoPersonCircle className="text-[2.5rem]" />
+                )}
+              </MenuButton>
+
+              {/* dropdown logout button */}
+              <MenuItems
+                transition
+                className="right1/2 absolute left-1/2 top-full -translate-x-1/2 rounded-lg border border-custom-gray-3 bg-white transition duration-100 ease-out"
+              >
+                <MenuItem onClick={handleUserLogOut} className="rounded-lg">
+                  <button className="flex items-center justify-center gap-2 px-4 py-2 transition-all hover:bg-red-100 hover:text-red-600">
+                    <FaPowerOff className="text-red-600" />
+                    <span className="text-lg font-medium">Logout</span>
+                  </button>
+                </MenuItem>
+              </MenuItems>
+            </Menu>
+          </div>
+        ) : (
+          <motion.button whileTap={{ scale: 0.95 }}>
+            <Link
+              className="rounded-md bg-black px-4 py-1 text-lg font-medium text-white"
+              to="/login"
+            >
+              Login
+            </Link>
+          </motion.button>
+        )}
       </div>
     </>
   );

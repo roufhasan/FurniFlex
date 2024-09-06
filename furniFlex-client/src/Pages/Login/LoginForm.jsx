@@ -1,22 +1,45 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { motion } from "framer-motion";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { AuthContext } from "../../Providers/AuthProvider";
 import FormContainer from "../../components/shared/FormContainer";
-import { Link } from "react-router-dom";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
 import AuthButton from "../../components/buttons/AuthButton";
 
 const LoginForm = () => {
+  const { signIn, setLoading } = useContext(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
-  const onSubmit = (data) => console.log(data);
+  // form submit handler
+  const onSubmit = (data) => {
+    signIn(data.email, data.password)
+      .then((result) => {
+        setLoading(false);
+        const loggedUser = result.user;
+        if (loggedUser) {
+          navigate(from, { replace: true });
+        }
+      })
+      .catch((error) => {
+        setLoading(false);
+        console.log("login error:", error.message);
+      });
 
+    reset();
+  };
+
+  // show and hide password
   const togglePassword = () => {
     setShowPassword((prevPass) => !prevPass);
   };
@@ -53,14 +76,16 @@ const LoginForm = () => {
               className={`block text-xs ${errors.password ? "text-red-600" : "text-custom-gray-1"}`}
               htmlFor="password"
             >
-              Password
+              {errors.password
+                ? "Password must be min 6 characters"
+                : "Password"}
             </label>
             <input
               className="mt-0.5 block w-full border-none text-sm outline-none"
               type={showPassword ? "text" : "password"}
               id="password"
               placeholder="*********"
-              {...register("password", { required: true })}
+              {...register("password", { required: true, pattern: /^.{6,}$/ })}
             />
           </div>
           <motion.div
@@ -89,12 +114,15 @@ const LoginForm = () => {
             id="terms"
             {...register("terms", { required: true })}
           />
-          <span className={`${errors.terms && "text-red-600"}`}>
+          <label
+            htmlFor="terms"
+            className={`${errors.terms && "text-red-600"}`}
+          >
             I agree to the{" "}
             <Link to="/" className="underline">
               Terms & Policy
             </Link>
-          </span>
+          </label>
         </div>
 
         <AuthButton buttonText="sign in" />
