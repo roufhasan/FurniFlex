@@ -104,6 +104,23 @@ async function run() {
       }
     });
 
+    // Update the quantity of a cart item
+    app.patch("/carts/:id", async (req, res) => {
+      try {
+        const { id } = req.params;
+        const { quantity } = req.body;
+
+        const filter = { _id: new ObjectId(id) };
+        const updateDoc = { $set: { quantity: quantity } };
+
+        const result = await cartsCollection.updateOne(filter, updateDoc);
+        res.send(result);
+      } catch (err) {
+        console.log(`error updating cart item quantity: ${err}`);
+        res.status(500).send("internal server error");
+      }
+    });
+
     // Delete a item from the carts
     app.delete("/carts/:id", async (req, res) => {
       try {

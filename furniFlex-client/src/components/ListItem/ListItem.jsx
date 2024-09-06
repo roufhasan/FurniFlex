@@ -5,8 +5,21 @@ import { CartContext } from "../../Providers/CartProvider";
 import chairImg from "../../assets/chair.png";
 
 const ListItem = ({ item }) => {
-  const { deleteCartItem } = useContext(CartContext);
+  const { updateQuantity, deleteCartItem } = useContext(CartContext);
   const { _id, productId, title, price, quantity } = item;
+
+  const increaseQuantity = (quantity) => {
+    const newQuantity = parseInt(quantity) + 1;
+    updateQuantity(_id, productId, newQuantity);
+  };
+
+  const decreaseQuantity = (quantity) => {
+    const newQuantity = parseInt(quantity) - 1;
+
+    if (newQuantity > 0) {
+      updateQuantity(_id, productId, newQuantity);
+    }
+  };
 
   return (
     <li className="border-b border-[#ECECEC] pb-14 pt-6 last:border-b-0">
@@ -14,12 +27,16 @@ const ListItem = ({ item }) => {
         {/* quantity buttons */}
         <div className="inline-flex items-center gap-2 rounded-md border border-[#dedede] bg-white px-2 py-2.5">
           <TfiMinus
+            onClick={() => decreaseQuantity(quantity)}
             className={`${quantity > 1 ? "cursor-pointer text-[#5C5C5C]" : "text-[#CFCFCF]"}`}
           />
           <span className="text-xl font-semibold text-[#0E0E0E]">
             {quantity}
           </span>
-          <TfiPlus className="cursor-pointer text-[#5C5C5C]" />
+          <TfiPlus
+            onClick={() => increaseQuantity(quantity)}
+            className="cursor-pointer text-[#5C5C5C]"
+          />
         </div>
 
         {/* product title, image */}

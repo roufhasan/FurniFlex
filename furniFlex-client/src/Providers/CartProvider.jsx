@@ -57,13 +57,43 @@ const CartProvider = ({ children }) => {
       });
   };
 
+  // Update a item quantity from carts
+  const updateQuantity = (_id, productId, quantity) => {
+    if (_id && productId && quantity) {
+      setLoading(true);
+
+      axios
+        .patch(`http://localhost:5000/carts/${_id}`, { quantity })
+        .then((res) => {
+          if (res.data.acknowledged && res.data.matchedCount > 0) {
+            setLoading(false);
+            const oldItem = carts.find((item) => item.productId === productId);
+            oldItem.quantity = quantity;
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.log(`error updating cart quantity: ${err}`);
+        });
+    }
+  };
+
+  // Delete a item from carts
   const deleteCartItem = (_id, productId) => {
-    if (_id) {
-      axios.delete(`http://localhost:5000/carts/${_id}`).then((res) => {
-        if (res.data.acknowledged && res.data.deletedCount > 0) {
-          setCarts(carts.filter((item) => item.productId !== productId));
-        }
-      });
+    if (_id && productId) {
+      setLoading(true);
+      axios
+        .delete(`http://localhost:5000/carts/${_id}`)
+        .then((res) => {
+          if (res.data.acknowledged && res.data.deletedCount > 0) {
+            setLoading(false);
+            setCarts(carts.filter((item) => item.productId !== productId));
+          }
+        })
+        .catch((err) => {
+          setLoading(false);
+          console.error(`error deleting cart item: ${err}`);
+        });
     }
   };
 
@@ -73,7 +103,13 @@ const CartProvider = ({ children }) => {
     }
   }, [user]);
 
-  const cartInfo = { carts, loading, saveCartItem, deleteCartItem };
+  const cartInfo = {
+    carts,
+    loading,
+    saveCartItem,
+    updateQuantity,
+    deleteCartItem,
+  };
   return (
     <CartContext.Provider value={cartInfo}>{children}</CartContext.Provider>
   );
