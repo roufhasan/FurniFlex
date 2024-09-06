@@ -4,7 +4,7 @@ import MobileNav from "./MobileNav";
 
 const Navbar = () => {
   return (
-    <nav className="mx-auto flex w-full max-w-[1440px] items-center justify-between border-b border-custom-gray-3 px-4 py-6 font-barlow md:py-10 xl:px-[7.5rem]">
+    <nav className="mx-auto flex w-full max-w-[1440px] items-center justify-between border-b border-custom-gray-3 px-4 py-6 font-barlow md:py-10 lg:px-20 xl:px-[7.5rem]">
       <Logo />
       <MobileNav />
       <DesktopNav />

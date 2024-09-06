@@ -4,13 +4,14 @@ import useProducts from "../../hooks/useProducts";
 import Container from "../../components/shared/Container";
 import Card from "../../components/Card/Card";
 import { getCategories } from "../../api/getCategories";
+import Loader from "../../components/Loader/Loader";
 
 const Products = () => {
   const { category } = useParams();
   const navigate = useNavigate();
   const [categories, setCatgories] = useState([]);
 
-  const { products } = useProducts(category);
+  const { products, loading } = useProducts(category);
 
   useEffect(() => {
     getCategories(setCatgories);
@@ -22,6 +23,10 @@ const Products = () => {
       navigate(value);
     }
   };
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return (
     <Container>

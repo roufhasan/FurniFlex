@@ -41,42 +41,44 @@ const DesktopNav = () => {
       </ul>
 
       <div className="hidden items-center gap-6 md:flex">
-        <div className="relative inline-block cursor-pointer">
-          <BsBag className="text-2xl" />
-          <span className="absolute -bottom-1.5 -right-1 size-4 rounded-full bg-black text-center text-xs text-white">
-            {carts?.length}
-          </span>
-        </div>
-
         {user ? (
-          <div className="relative">
-            <Menu>
-              <MenuButton>
-                {user?.photoURL ? (
-                  <img
-                    className="size-10 cursor-pointer rounded-full"
-                    src={user.photoURL}
-                    alt={`${user.displayName} image`}
-                  />
-                ) : (
-                  <IoPersonCircle className="text-[2.5rem]" />
-                )}
-              </MenuButton>
+          <>
+            <Link to="/carts" className="relative inline-block cursor-pointer">
+              <BsBag className="text-2xl" />
+              <span className="absolute -bottom-1.5 -right-1 size-4 rounded-full bg-black text-center text-xs text-white">
+                {carts?.length}
+              </span>
+            </Link>
 
-              {/* dropdown logout button */}
-              <MenuItems
-                transition
-                className="right1/2 absolute left-1/2 top-full -translate-x-1/2 rounded-lg border border-custom-gray-3 bg-white transition duration-100 ease-out"
-              >
-                <MenuItem onClick={handleUserLogOut} className="rounded-lg">
-                  <button className="flex items-center justify-center gap-2 px-4 py-2 transition-all hover:bg-red-100 hover:text-red-600">
-                    <FaPowerOff className="text-red-600" />
-                    <span className="text-lg font-medium">Logout</span>
-                  </button>
-                </MenuItem>
-              </MenuItems>
-            </Menu>
-          </div>
+            <div className="relative">
+              <Menu>
+                <MenuButton>
+                  {user?.photoURL ? (
+                    <img
+                      className="size-10 cursor-pointer rounded-full"
+                      src={user.photoURL}
+                      alt={`${user.displayName} image`}
+                    />
+                  ) : (
+                    <IoPersonCircle className="text-[2.5rem]" />
+                  )}
+                </MenuButton>
+
+                {/* dropdown logout button */}
+                <MenuItems
+                  transition
+                  className="right1/2 absolute left-1/2 top-full -translate-x-1/2 rounded-lg border border-custom-gray-3 bg-white transition duration-100 ease-out"
+                >
+                  <MenuItem onClick={handleUserLogOut} className="rounded-lg">
+                    <button className="flex items-center justify-center gap-2 px-4 py-2 transition-all hover:bg-red-100 hover:text-red-600">
+                      <FaPowerOff className="text-red-600" />
+                      <span className="text-lg font-medium">Logout</span>
+                    </button>
+                  </MenuItem>
+                </MenuItems>
+              </Menu>
+            </div>
+          </>
         ) : (
           <motion.button whileTap={{ scale: 0.95 }}>
             <Link

@@ -78,16 +78,16 @@ async function run() {
     app.put("/carts", async (req, res) => {
       try {
         const item = req.body;
-        const { prodcutId, email, quantity } = item;
+        const { productId, email, quantity } = item;
 
         const existingItem = await cartsCollection.findOne({
-          prodcutId,
+          productId,
           email,
         });
 
         if (existingItem) {
           const newQuantity = existingItem.quantity + quantity;
-          const filter = { prodcutId, email };
+          const filter = { productId, email };
           const updateCartQuantiy = { $set: { quantity: newQuantity } };
           const result = await cartsCollection.updateOne(
             filter,
