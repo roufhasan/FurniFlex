@@ -1,10 +1,13 @@
+import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BsBag } from "react-icons/bs";
+import { AuthContext } from "../../Providers/AuthProvider";
 import { discountedPrice } from "../../utils/discountedPrice";
-import chairImg from "../../assets/chair.png";
+import chairImg from "../../assets/chair.png"; // TODO: make chair image dynamic add in the backend api
 
 const Card = ({ product }) => {
+  const { user } = useContext(AuthContext);
   const { title, price, discount, description } = product;
 
   return (
@@ -36,12 +39,26 @@ const Card = ({ product }) => {
         <p className="text-lg font-semibold text-[#B92E2E]">{discount}% OFF</p>
       </div>
       <p className="text-sm text-[#838383]">{description}</p>
-      <motion.button
-        whileTap={{ scale: 0.95 }}
-        className="mt-8 flex w-full items-center justify-center gap-3 rounded-md bg-black py-2 font-semibold text-white"
-      >
-        <BsBag className="text-lg" /> Add to cart
-      </motion.button>
+      {user ? (
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          className="mt-8 flex w-full items-center justify-center gap-3 rounded-md bg-black py-2 font-semibold text-white"
+        >
+          <BsBag className="text-lg" /> Add to cart
+        </motion.button>
+      ) : (
+        <motion.button
+          whileTap={{ scale: 0.95 }}
+          className="inline-block w-full"
+        >
+          <Link
+            to="/login"
+            className="mt-8 flex w-full items-center justify-center gap-3 rounded-md bg-black py-2 font-semibold text-white"
+          >
+            <BsBag className="text-lg" /> Add to cart
+          </Link>
+        </motion.button>
+      )}
     </div>
   );
 };
