@@ -5,18 +5,17 @@ import { BsBag } from "react-icons/bs";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { CartContext } from "../../Providers/CartProvider";
 import { discountedPrice } from "../../utils/discountedPrice";
-import chairImg from "../../assets/chair.png"; // TODO: make chair image dynamic add in the backend api
 
 const Card = ({ product }) => {
   const { user } = useContext(AuthContext);
   const { saveCartItem } = useContext(CartContext);
-  const { _id, title, price, discount, description } = product;
+  const { _id, title, price, discount, description, image } = product;
   const discountPrice = discountedPrice(price, discount);
 
   const item = {
     email: user?.email,
     productId: _id,
-    image: "https.imgae.com", //TODO: make imgae dynamic
+    image,
     title,
     price: parseFloat(discountPrice).toFixed(2),
     quantity: 1,
@@ -26,18 +25,18 @@ const Card = ({ product }) => {
     <div className="col-span-12 mx-auto max-w-96 rounded-2xl border border-[#f1f1f1] p-4 sm:col-span-6 md:col-span-4">
       <Link
         to="/"
-        className="group inline-block rounded-lg bg-[#f2f2f2] px-5 py-3.5"
+        className="group block rounded-lg bg-[#f2f2f2] px-5 py-3.5 text-center"
       >
         <motion.img
           whileTap={{ scale: 1 }}
-          className="transition-all duration-200 group-hover:scale-105"
-          src={chairImg}
+          className="mx-auto size-[12.8rem] transition-all duration-200 group-hover:scale-105"
+          src={image}
           alt="wooden chair"
         />
       </Link>
       <Link
         to="/"
-        className="text-lg font-semibold text-[#343434] transition-all hover:text-black"
+        className="mt-8 inline-block text-lg font-semibold text-[#343434] transition-all hover:text-black"
       >
         {title}
       </Link>

@@ -47,9 +47,23 @@ async function run() {
     app.get("/products/:category", async (req, res) => {
       try {
         const { category } = req.params;
+        const page = parseInt(req.query.page) || 1;
+        const limit = 6;
+        const skip = (page - 1) * limit;
+
         const query = { category: category };
-        const result = await productsCollection.find(query).toArray();
-        res.send(result);
+        const totalProducts = await productsCollection.countDocuments(query);
+        const result = await productsCollection
+          .find(query)
+          .skip(skip)
+          .limit(limit)
+          .toArray();
+        res.send({
+          products: result,
+          totalProducts: totalProducts,
+          page: page,
+          totalPages: Math.ceil(totalProducts / limit),
+        });
       } catch (err) {
         console.log(`error getting products: ${err}`);
         res.status(500).send("internal server error");

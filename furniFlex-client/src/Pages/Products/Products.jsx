@@ -1,17 +1,31 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
-import useProducts from "../../hooks/useProducts";
+import {
+  NavLink,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+import { RiArrowLeftSLine, RiArrowRightSLine } from "react-icons/ri";
 import Container from "../../components/shared/Container";
-import Card from "../../components/Card/Card";
-import { getCategories } from "../../api/getCategories";
 import Loader from "../../components/Loader/Loader";
+import Card from "../../components/Card/Card";
+import useProducts from "../../hooks/useProducts";
+import { getCategories } from "../../api/getCategories";
 
 const Products = () => {
   const { category } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [categories, setCatgories] = useState([]);
 
-  const { products, loading } = useProducts(category);
+  const {
+    products,
+    loading,
+    renderPaginationButtons,
+    currentPage,
+    totalPages,
+    handlePageChange,
+  } = useProducts(category, searchParams, setSearchParams);
 
   useEffect(() => {
     getCategories(setCatgories);
@@ -65,13 +79,44 @@ const Products = () => {
           ))}
         </ul>
 
-        {/* Products container */}
-        <div className="grid flex-1 grid-cols-12 gap-x-4 gap-y-14 lg:gap-x-8">
-          {products &&
-            products.length > 0 &&
-            products.map((product) => (
-              <Card key={product?._id} product={product} />
-            ))}
+        <div className="flex-1">
+          {/* Products container */}
+          <div className="grid grid-cols-12 gap-x-4 gap-y-14 lg:gap-x-8">
+            {products &&
+              products.length > 0 &&
+              products.map((product) => (
+                <Card key={product?._id} product={product} />
+              ))}
+          </div>
+
+          {/* Pagination */}
+          {products && products.length > 0 && (
+            <div className="mt-16 flex items-center justify-center space-x-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className={`rounded border p-1 ${
+                  currentPage === 1
+                    ? "bg-[#DADADA] text-[#C4CDD5] opacity-50"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                <RiArrowLeftSLine className="text-2xl" />
+              </button>
+              {renderPaginationButtons()}
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+                className={`rounded border p-1 ${
+                  currentPage === totalPages
+                    ? "bg-[#DADADA] text-[#C4CDD5] opacity-50"
+                    : "hover:bg-gray-100"
+                }`}
+              >
+                <RiArrowRightSLine className="text-2xl" />
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </Container>

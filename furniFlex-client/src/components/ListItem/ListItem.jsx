@@ -2,11 +2,10 @@ import { useContext } from "react";
 import { Link } from "react-router-dom";
 import { TfiClose, TfiMinus, TfiPlus } from "react-icons/tfi";
 import { CartContext } from "../../Providers/CartProvider";
-import chairImg from "../../assets/chair.png";
 
 const ListItem = ({ item }) => {
   const { updateQuantity, deleteCartItem } = useContext(CartContext);
-  const { _id, productId, title, price, quantity } = item;
+  const { _id, productId, title, price, quantity, image } = item;
 
   const increaseQuantity = (quantity) => {
     const newQuantity = parseInt(quantity) + 1;
@@ -48,7 +47,7 @@ const ListItem = ({ item }) => {
             >
               <img
                 className="size-[5.5rem] object-cover object-center transition-all hover:scale-105"
-                src={chairImg}
+                src={image}
                 alt={`${title} image`}
               />
             </Link>
