@@ -48,7 +48,7 @@ async function run() {
         const result = await productsCollection.find(query).toArray();
         res.send(result);
       } catch (err) {
-        console.log(`error getting categoris: ${err}`);
+        console.log(`error getting products: ${err}`);
         res.status(500).send("internal server error");
       }
     });

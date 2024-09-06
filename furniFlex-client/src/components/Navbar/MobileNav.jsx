@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
 import { BsList } from "react-icons/bs";
-import { navLinks } from "../../data/navLinks";
+import { navLinks } from "../../utils/data/navLinks";
 
 const MobileNav = () => {
   const sideBarRef = useRef();

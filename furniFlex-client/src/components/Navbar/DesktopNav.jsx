@@ -1,6 +1,6 @@
 import { NavLink } from "react-router-dom";
 import { BsBag } from "react-icons/bs";
-import { navLinks } from "../../data/navLinks";
+import { navLinks } from "../../utils/data/navLinks";
 import userImg from "../../assets/user.png";
 
 const DesktopNav = () => {

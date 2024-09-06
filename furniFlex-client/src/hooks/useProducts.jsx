@@ -5,7 +5,7 @@ const useProducts = (category) => {
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState([]);
 
-  const getProducts = (category) => {
+  const getProducts = (category = "rocking-chair") => {
     axios
       .get(`http://localhost:5000/products/${category}`)
       .then((res) => {

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "../Logo/Logo";
-import { footerLinks } from "../../data/footerLinks";
+import { footerLinks } from "../../utils/data/footerLinks";
 import facebookIcon from "../../assets/icons/facebook-logo.svg";
 import instagramIcon from "../../assets/icons/instagram-logo.svg";
 import twitterIcon from "../../assets/icons/twitter-logo.svg";
