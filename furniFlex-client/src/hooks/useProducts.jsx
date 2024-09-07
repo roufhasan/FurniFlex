@@ -10,7 +10,9 @@ const useProducts = (category, searchParams, setSearchParams) => {
 
   const getProducts = (category = "rocking-chair", currentPage) => {
     axios
-      .get(`http://localhost:5000/products/${category}?page=${currentPage}`)
+      .get(
+        `https://furniflex-server-hridoy.vercel.app/products/${category}?page=${currentPage}`,
+      )
       .then((res) => {
         setProducts(res.data.products);
         setTotalPages(res.data.totalPages);

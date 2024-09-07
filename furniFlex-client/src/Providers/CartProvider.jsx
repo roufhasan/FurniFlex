@@ -13,7 +13,7 @@ const CartProvider = ({ children }) => {
   // Get cart items
   const getCarts = (user) => {
     axios
-      .get(`http://localhost:5000/carts/${user.email}`)
+      .get(`https://furniflex-server-hridoy.vercel.app/carts/${user.email}`)
       .then((res) => {
         setCarts(res.data);
         setLoading(false);
@@ -28,7 +28,7 @@ const CartProvider = ({ children }) => {
   // Add a item to the cart or update the quantity if exists
   const saveCartItem = (item) => {
     axios
-      .put("http://localhost:5000/carts", item)
+      .put("https://furniflex-server-hridoy.vercel.app/carts", item)
       .then((res) => {
         if (res.data.acknowledged) {
           setLoading(false);
@@ -67,7 +67,9 @@ const CartProvider = ({ children }) => {
       setLoading(true);
 
       axios
-        .patch(`http://localhost:5000/carts/${_id}`, { quantity })
+        .patch(`https://furniflex-server-hridoy.vercel.app/carts/${_id}`, {
+          quantity,
+        })
         .then((res) => {
           if (res.data.acknowledged && res.data.matchedCount > 0) {
             setLoading(false);
@@ -88,7 +90,7 @@ const CartProvider = ({ children }) => {
     if (_id && productId) {
       setLoading(true);
       axios
-        .delete(`http://localhost:5000/carts/${_id}`)
+        .delete(`https://furniflex-server-hridoy.vercel.app/carts/${_id}`)
         .then((res) => {
           if (res.data.acknowledged && res.data.deletedCount > 0) {
             setLoading(false);

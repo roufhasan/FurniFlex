@@ -82,11 +82,18 @@ const Products = () => {
         <div className="flex-1">
           {/* Products container */}
           <div className="grid grid-cols-12 gap-x-4 gap-y-14 lg:gap-x-8">
-            {products &&
-              products.length > 0 &&
+            {products && products.length > 0 ? (
               products.map((product) => (
                 <Card key={product?._id} product={product} />
-              ))}
+              ))
+            ) : (
+              <div className="col-span-12">
+                <p className="text-center text-xl font-semibold">
+                  No Product Found!
+                </p>
+                <p className="text-center text-xl font-semibold">:(</p>
+              </div>
+            )}
           </div>
 
           {/* Pagination */}

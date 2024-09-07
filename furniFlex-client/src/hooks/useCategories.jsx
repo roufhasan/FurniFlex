@@ -7,7 +7,7 @@ const useCategories = () => {
 
   const getCategories = (setCatgories) => {
     axios
-      .get("http://localhost:5000/category")
+      .get("https://furniflex-server-hridoy.vercel.app/category")
       .then((res) => {
         setLoading(false);
         setCatgories(res.data);
