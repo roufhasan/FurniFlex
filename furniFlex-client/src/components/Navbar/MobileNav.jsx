@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import { BsList } from "react-icons/bs";
 import { navLinks } from "../../utils/data/navLinks";
 import { AuthContext } from "../../Providers/AuthProvider";
-import userImg from "../../assets/user.png";
 import { IoPersonCircle } from "react-icons/io5";
 import { FaPowerOff } from "react-icons/fa";
+import { CartContext } from "../../Providers/CartProvider";
+import toast from "react-hot-toast";
 
 const MobileNav = () => {
   const { user, logOut } = useContext(AuthContext);
+  const { setCarts } = useContext(CartContext);
   const sideBarRef = useRef();
   const menuRef = useRef();
   const [showMenu, setShowMenu] = useState(false);
@@ -19,9 +21,14 @@ const MobileNav = () => {
     logOut()
       .then(() => {
         setShowMenu(false);
+        setCarts([]);
+        toast.success("Logged out!");
       })
-      .catch((err) => console.error(err));
-    // setCart([]); TODO: make setCart uncommented
+      .catch((err) => {
+        setShowMenu(false);
+        toast.error("Something went wrong!");
+        console.error(err);
+      });
   };
 
   // Toggle mobile menu Visibility
@@ -91,7 +98,7 @@ const MobileNav = () => {
                     <div className="flex items-center justify-between gap-2">
                       <img
                         className="size-10 cursor-pointer rounded-full"
-                        src={userImg}
+                        src={user.photoURL}
                         alt={`${user.displayName} image`}
                       />
                       <motion.button

@@ -4,6 +4,7 @@ import { CartContext } from "../../Providers/CartProvider";
 import OrderOverview from "./OrderOverview";
 import OrderDetails from "./OrderDetails";
 import Loader from "../../components/Loader/Loader";
+import { Helmet } from "react-helmet-async";
 
 const Cart = () => {
   const { carts, loading } = useContext(CartContext);
@@ -14,6 +15,10 @@ const Cart = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Cart - FurniFlex</title>
+      </Helmet>
+
       <div className="flex flex-col justify-between gap-y-10 pb-24 pt-5 md:flex-row md:gap-x-10 lg:gap-x-20">
         <OrderOverview carts={carts} />
         <OrderDetails carts={carts} />

@@ -24,7 +24,7 @@ const Card = ({ product }) => {
   return (
     <div className="col-span-12 mx-auto max-w-96 rounded-2xl border border-[#f1f1f1] p-4 sm:col-span-6 md:col-span-4">
       <Link
-        to="/"
+        to={`/products/details/${_id}`}
         className="group block rounded-lg bg-[#f2f2f2] px-5 py-3.5 text-center"
       >
         <motion.img
@@ -35,7 +35,7 @@ const Card = ({ product }) => {
         />
       </Link>
       <Link
-        to="/"
+        to={`/products/details/${_id}`}
         className="mt-8 inline-block text-lg font-semibold text-[#343434] transition-all hover:text-black"
       >
         {title}

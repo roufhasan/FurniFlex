@@ -7,6 +7,8 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import FormContainer from "../../components/shared/FormContainer";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
 import AuthButton from "../../components/buttons/AuthButton";
+import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const LoginForm = () => {
   const { signIn, setLoading } = useContext(AuthContext);
@@ -26,6 +28,7 @@ const LoginForm = () => {
     signIn(data.email, data.password)
       .then((result) => {
         setLoading(false);
+        toast.success("Welcome Back");
         const loggedUser = result.user;
         if (loggedUser) {
           navigate(from, { replace: true });
@@ -33,6 +36,7 @@ const LoginForm = () => {
       })
       .catch((error) => {
         setLoading(false);
+        toast.error("Something went wrong!");
         console.log("login error:", error.message);
       });
 
@@ -46,6 +50,10 @@ const LoginForm = () => {
 
   return (
     <FormContainer>
+      <Helmet>
+        <title>Login - FurniFlex</title>
+      </Helmet>
+
       <h1 className="text-[2rem] font-medium">Welcome Back!</h1>
       <p className="mt-0.5 font-medium text-custom-gray-1">
         Enter your Credentials to access your account

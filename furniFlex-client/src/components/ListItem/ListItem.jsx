@@ -43,7 +43,7 @@ const ListItem = ({ item }) => {
           <div className="flex gap-4">
             <Link
               className="inline-block rounded-md bg-[#eaeaea]"
-              to={`/products/${productId}`}
+              to={`/products/details/${productId}`}
             >
               <img
                 className="size-[5.5rem] object-cover object-center transition-all hover:scale-105"
@@ -53,7 +53,7 @@ const ListItem = ({ item }) => {
             </Link>
             <Link
               className="py-2 font-bold text-[#434343] transition-all hover:text-black"
-              to={`/products/${productId}`}
+              to={`/products/details/${productId}`}
             >
               {title}
             </Link>

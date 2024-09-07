@@ -7,6 +7,8 @@ import { AuthContext } from "../../Providers/AuthProvider";
 import FormContainer from "../../components/shared/FormContainer";
 import AuthButton from "../../components/buttons/AuthButton";
 import SocialLogin from "../../components/SocialLogin/SocialLogin";
+import toast from "react-hot-toast";
+import { Helmet } from "react-helmet-async";
 
 const SignUpForm = () => {
   const { createUser, updateUserProfile, setLoading } = useContext(AuthContext);
@@ -24,8 +26,7 @@ const SignUpForm = () => {
     createUser(data.email, data.password)
       .then((result) => {
         const loggedUser = result.user;
-        console.log(loggedUser); // TODO: remove this console.log of logged user
-
+        toast.success("Signup Successful");
         // update user name
         if (data.firstName && data.lastName) {
           const name = `${data.firstName} ${data.lastName}`;
@@ -45,6 +46,7 @@ const SignUpForm = () => {
       })
       .catch((error) => {
         setLoading(false);
+        toast.error("Something went wrong!");
         console.log("signup error:", error.message);
       });
 
@@ -59,6 +61,10 @@ const SignUpForm = () => {
 
   return (
     <FormContainer>
+      <Helmet>
+        <title>Signup - FurniFlex</title>
+      </Helmet>
+
       {/* welcome heading */}
       <div className="text-center">
         <h3 className="text-2xl font-semibold">Welcome To</h3>

@@ -3,6 +3,9 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
+      backgroundImage: {
+        categoryImg: "url('/category-bg.jpg')",
+      },
       colors: {
         "custom-blue-1": "#0f3dde",
         "custom-gray-1": "#707070",

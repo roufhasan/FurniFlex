@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { AuthContext } from "./AuthProvider";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 export const CartContext = createContext(null);
 
@@ -19,6 +20,7 @@ const CartProvider = ({ children }) => {
       })
       .catch((err) => {
         setLoading(false);
+        toast.error("Something went wrong!");
         console.log(`error getting carts: ${err}`);
       });
   };
@@ -30,6 +32,7 @@ const CartProvider = ({ children }) => {
       .then((res) => {
         if (res.data.acknowledged) {
           setLoading(false);
+          toast.success("Added to Cart");
           // Update the cart state
           setCarts((prevCartItems) => {
             // Find existing item
@@ -53,6 +56,7 @@ const CartProvider = ({ children }) => {
       })
       .catch((err) => {
         setLoading(false);
+        toast.error("Something went wrong!");
         console.log(`error adding to cart: ${err}`);
       });
   };
@@ -73,6 +77,7 @@ const CartProvider = ({ children }) => {
         })
         .catch((err) => {
           setLoading(false);
+          toast.error("Something went wrong!");
           console.log(`error updating cart quantity: ${err}`);
         });
     }
@@ -87,11 +92,13 @@ const CartProvider = ({ children }) => {
         .then((res) => {
           if (res.data.acknowledged && res.data.deletedCount > 0) {
             setLoading(false);
+            toast.success("Item Deleted");
             setCarts(carts.filter((item) => item.productId !== productId));
           }
         })
         .catch((err) => {
           setLoading(false);
+          toast.error("Something went wrong!");
           console.error(`error deleting cart item: ${err}`);
         });
     }
@@ -105,6 +112,7 @@ const CartProvider = ({ children }) => {
 
   const cartInfo = {
     carts,
+    setCarts,
     loading,
     saveCartItem,
     updateQuantity,

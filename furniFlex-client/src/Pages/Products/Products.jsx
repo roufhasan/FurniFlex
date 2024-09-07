@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import {
   NavLink,
   useNavigate,
@@ -10,14 +9,15 @@ import Container from "../../components/shared/Container";
 import Loader from "../../components/Loader/Loader";
 import Card from "../../components/Card/Card";
 import useProducts from "../../hooks/useProducts";
-import { getCategories } from "../../api/getCategories";
+import useCategories from "../../hooks/useCategories";
+import { Helmet } from "react-helmet-async";
 
 const Products = () => {
   const { category } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [categories, setCatgories] = useState([]);
 
+  const { categories } = useCategories();
   const {
     products,
     loading,
@@ -26,10 +26,6 @@ const Products = () => {
     totalPages,
     handlePageChange,
   } = useProducts(category, searchParams, setSearchParams);
-
-  useEffect(() => {
-    getCategories(setCatgories);
-  }, []);
 
   const handleSelectChange = (e) => {
     const value = e.target.value;
@@ -44,6 +40,10 @@ const Products = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Products - FurniFlex</title>
+      </Helmet>
+
       {/* Mobile, Tab Product Filter */}
       <div className="flex items-center justify-between pt-14 lg:hidden">
         <p className="text-lg font-medium">Filter:</p>

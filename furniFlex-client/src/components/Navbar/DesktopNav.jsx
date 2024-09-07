@@ -8,20 +8,24 @@ import { IoPersonCircle } from "react-icons/io5";
 import { AuthContext } from "../../Providers/AuthProvider";
 import { CartContext } from "../../Providers/CartProvider";
 import { navLinks } from "../../utils/data/navLinks";
+import toast from "react-hot-toast";
 
 const DesktopNav = () => {
   const { user, logOut } = useContext(AuthContext);
-  const { carts } = useContext(CartContext);
+  const { carts, setCarts } = useContext(CartContext);
 
   // Handle user logout
   const handleUserLogOut = () => {
     logOut()
-      .then(() => {})
-      .catch((err) => console.error(err));
-    // setCart([]); TODO: make setCart uncommented
+      .then(() => {
+        setCarts([]);
+        toast.success("Logged out!");
+      })
+      .catch((err) => {
+        toast.error("Something went wrong!");
+        console.error(err);
+      });
   };
-
-  console.log(user); // TODO: uncomment this user
 
   return (
     <>
